@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Signature Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .form-container, .preview-container {
+            width: 45%;
+        }
+        .email-signature {
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: medium;
+            font-family: Arial, sans-serif;
+        }
+        .top-aligned {
+            vertical-align: top;
+        }
+        h2 {
+            color: #003C4C;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 5px 0; /* Add some space below the name */
+        }
+        .job-title {
+            color: #003C4C;
+            font-style: italic;
+            margin: 0 0 10px 0; /* Add some space between job title and company name */
+            font-size: 14px;
+        }
+        p {
+            color: #003C4C;
+            margin: 0;
+            font-size: 14px;
+        }
+        .divider {
+            border-bottom: 2px solid #003C4C;
+            margin: 20px 0;
+            width: 100%;
+        }
+        .contact-info img {
+            vertical-align: middle;
+        }
+        .contact-info a {
+            text-decoration: none;
+            color: #003C4C;
+            font-size: 12px;
+        }
+        .contact-info span {
+            font-size: 12px;
+            color: #003C4C;
+        }
+        .copy-button {
+            margin-top: 20px;
+        }
+        .icon {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            vertical-align: middle;
+            fill: #007098;
+        }
+        .spacer-line {
+            width: 100%;
+            border-bottom: 2px solid #003C4C; /* Ensure the separator is visible */
+            margin: 15px 0; /* Add spacing around the line */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-container">
+        <h3>Fill out your details:</h3>
+        <form id="signatureForm">
+            <label for="name">Full Name:</label><br>
+            <input type="text" id="name" name="name" value="Tommy Denn" oninput="updatePreview()"><br><br>
+            
+            <label for="jobTitle">Job Title:</label><br>
+            <input type="text" id="jobTitle" name="jobTitle" value="Business Operations Analyst" oninput="updatePreview()"><br><br>
+
+            <label for="phone">Phone Number:</label><br>
+            <input type="text" id="phone" name="phone" value="6124125274" oninput="updatePreview()"><br><br>
+            
+            <label for="email">Email:</label><br>
+            <input type="text" id="email" name="email" value="tdenn@greatlakesmc.com" oninput="updatePreview()"><br><br>
+
+            <label for="website">Website:</label><br>
+            <input type="text" id="website" name="website" value="www.greatlakesmc.com" oninput="updatePreview()"><br><br>
+            
+            <label for="address">Office Address:</label><br>
+            <input type="text" id="address" name="address" value="12755 Hwy 55 Suite 125, Plymouth, MN 55441" oninput="updatePreview()"><br><br>
+
+            <button type="button" onclick="updatePreview()">Generate Signature</button>
+        </form>
+    </div>
+
+    <div class="preview-container">
+        <h3>Preview:</h3>
+        <div id="signaturePreview" class="email-signature">
+            <!-- The signature preview will be dynamically updated here -->
+        </div>
+        <button class="copy-button" onclick="copyFormattedSignature()">Copy Formatted Signature</button>
+    </div>
+</div>
+
+<script>
+    function formatPhoneNumber(phone) {
+        return phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+    }
+
+    function updatePreview() {
+        const name = document.getElementById('name').value;
+        const jobTitle = document.getElementById('jobTitle').value;
+        const phone = formatPhoneNumber(document.getElementById('phone').value);
+        const email = document.getElementById('email').value;
+        const website = document.getElementById('website').value;
+        const address = document.getElementById('address').value;
+
+        const signatureHtml = `
+        <table cellpadding="0" cellspacing="0" border="0" style="vertical-align: -webkit-baseline-middle; font-size: medium; font-family: Arial;">
+            <tr>
+                <!-- Great Lakes Logo -->
+                <td class="top-aligned">
+                    <img src="https://8818180.fs1.hubspotusercontent-na1.net/hubfs/8818180/GLM_primary-logo.png" width="130" alt="Great Lakes Logo">
+                    <br><br>
+                    <!-- Best Places to Work Logo -->
+                    <img src="https://8818180.fs1.hubspotusercontent-na1.net/hubfs/8818180/BPTW_Logo_horizontal.png" width="130" alt="Best Places to Work">
+                </td>
+                <td width="46"></td>
+                <td class="top-aligned">
+                    <h2>${name}</h2>
+                    <p class="job-title">${jobTitle}</p>
+                    <p>Great Lakes Management Company</p>
+                    <div class="spacer-line"></div>
+                    <table class="contact-info">
+                        <tr>
+                            <td>
+                                <!-- Phone Icon -->
+                                <span style="display: inline-block; background-color: #007098;">
+                                    <img src="https://cdn2.hubspot.net/hubfs/53/tools/email-signature-generator/icons/phone-icon-2x.png" 
+                                         alt="Phone" 
+                                         width="13" 
+                                         style="display: block; background-color: #007098;">
+                                </span>
+                            </td>
+                            <td><a href="tel:${phone}" style="color: #003C4C;">${phone}</a></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <!-- Email Icon -->
+                                <span style="display: inline-block; background-color: #007098;">
+                                    <img src="https://cdn2.hubspot.net/hubfs/53/tools/email-signature-generator/icons/email-icon-2x.png" 
+                                         alt="Email" 
+                                         width="13" 
+                                         style="display: block; background-color: #007098;">
+                                </span>
+                            </td>
+                            <td><a href="mailto:${email}" style="color: #003C4C;">${email}</a></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <!-- Website Icon -->
+                                <span style="display: inline-block; background-color: #007098;">
+                                    <img src="https://cdn2.hubspot.net/hubfs/53/tools/email-signature-generator/icons/link-icon-2x.png" 
+                                         alt="Website" 
+                                         width="13" 
+                                         style="display: block; background-color: #007098;">
+                                </span>
+                            </td>
+                            <td><a href="http://${website}" target="_blank" style="color: #003C4C;">${website}</a></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <!-- Address Icon -->
+                                <span style="display: inline-block; background-color: #007098;">
+                                    <img src="https://cdn2.hubspot.net/hubfs/53/tools/email-signature-generator/icons/address-icon-2x.png" 
+                                         alt="Address" 
+                                         width="13" 
+                                         style="display: block; background-color: #007098;">
+                                </span>
+                            </td>
+                            <td><span style="color: #003C4C;">${address}</span></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>`;
+
+        document.getElementById('signaturePreview').innerHTML = signatureHtml;
+    }
+
+    function copyFormattedSignature() {
+        const signature = document.getElementById('signaturePreview');
+        const range = document.createRange();
+        range.selectNode(signature);
+        window.getSelection().removeAllRanges(); // clear current selection
+        window.getSelection().addRange(range);   // to select text
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges(); // to deselect text
+        alert('Formatted signature copied to clipboard!');
+    }
+</script>
+
+</body>
+</html>
