@@ -15,7 +15,7 @@
             padding: 0;
         }
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 40px auto;
             padding: 20px;
         }
@@ -27,20 +27,16 @@
         }
         .flex-container {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: nowrap; /* Prevent wrapping */
         }
         .form-container, .preview-container {
             background-color: #fff;
             padding: 30px;
             border-radius: 8px;
-            width: 100%;
-            margin-bottom: 40px;
-        }
-        @media (min-width: 768px) {
-            .form-container, .preview-container {
-                width: 48%;
-            }
+            width: 48%; /* Ensure both take up equal horizontal space */
+            box-sizing: border-box; /* Include padding in width calculation */
         }
         label {
             display: block;
@@ -56,6 +52,7 @@
             border-radius: 6px;
             font-size: 16px;
             font-family: 'Source Serif Pro', serif;
+            box-sizing: border-box;
         }
         input[type="text"]:focus {
             border-color: #007098;
@@ -79,16 +76,17 @@
         }
         .email-signature {
             background-color: #fff;
-            padding: 30px;
+            padding: 20px;
             border-radius: 8px;
             color: #003C4C;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Email Signature Generator</h1>
+    <h1>GLM Email Signature Generator</h1>
     <div class="flex-container">
         <div class="form-container">
             <h3>Your Details</h3>
@@ -132,12 +130,13 @@
     function updatePreview() {
         const name = document.getElementById('name').value.trim();
         const jobTitle = document.getElementById('jobTitle').value.trim();
-        const phone = formatPhoneNumber(document.getElementById('phone').value.trim());
+        const phoneInput = document.getElementById('phone').value.trim();
+        const phone = formatPhoneNumber(phoneInput);
         const email = document.getElementById('email').value.trim();
         const website = 'GreatLakesMC.com';
         const address = '12755 Hwy 55 Suite 125, Plymouth, MN 55441';
 
-        let signatureHtml = '<table cellpadding="0" cellspacing="0" border="0" style="font-family:\'Source Serif Pro\', serif; color:#003C4C;">';
+        let signatureHtml = '<table cellpadding="0" cellspacing="0" border="0" style="font-family:\'Roboto\', sans-serif; color:#003C4C;">';
 
         if (name || jobTitle) {
             signatureHtml += '<tr><td style="vertical-align: top;">';
@@ -150,15 +149,14 @@
                 signatureHtml += '<div style="font-size:13px; color:#007098; font-family:\'Roboto\', sans-serif; margin-bottom:5px;">' + jobTitle + '</div>';
             }
 
-            // Removed bold styling from company name
-            signatureHtml += '<div style="font-size:13px; color:#003C4C;">Great Lakes Management Company</div>';
+            signatureHtml += '<div style="font-size:13px; color:#003C4C; font-family:\'Roboto\', sans-serif;">Great Lakes Management Company</div>';
 
             signatureHtml += '</td></tr>';
         }
 
         // Start of contact information
         signatureHtml += '<tr><td style="padding-top:10px;">';
-        signatureHtml += '<table cellpadding="0" cellspacing="0" border="0" style="font-family:\'Source Serif Pro\', serif;">';
+        signatureHtml += '<table cellpadding="0" cellspacing="0" border="0">';
 
         if (phone) {
             signatureHtml += '<tr>';
@@ -169,7 +167,7 @@
             signatureHtml += '<img src="https://img.icons8.com/ios-filled/16/003C4C/phone.png" alt="Phone" style="display:block;">';
             signatureHtml += '</td>';
             signatureHtml += '<td style="vertical-align:middle;">';
-            signatureHtml += '<a href="tel:' + phone + '" style="color: #003C4C; text-decoration:none;">' + phone + '</a>';
+            signatureHtml += '<a href="tel:' + phoneInput + '" style="color: #003C4C; text-decoration:none; font-family:\'Roboto\', sans-serif; font-size:13px;">' + phone + '</a>';
             signatureHtml += '</td>';
             signatureHtml += '</tr>';
             signatureHtml += '</table>';
@@ -186,7 +184,7 @@
             signatureHtml += '<img src="https://img.icons8.com/ios-filled/16/003C4C/new-post.png" alt="Email" style="display:block;">';
             signatureHtml += '</td>';
             signatureHtml += '<td style="vertical-align:middle;">';
-            signatureHtml += '<a href="mailto:' + email + '" style="color: #003C4C; text-decoration:none;">' + email + '</a>';
+            signatureHtml += '<a href="mailto:' + email + '" style="color: #003C4C; text-decoration:none; font-family:\'Roboto\', sans-serif; font-size:13px;">' + email + '</a>';
             signatureHtml += '</td>';
             signatureHtml += '</tr>';
             signatureHtml += '</table>';
@@ -203,7 +201,7 @@
         signatureHtml += '<img src="https://img.icons8.com/ios-filled/16/003C4C/domain.png" alt="Website" style="display:block;">';
         signatureHtml += '</td>';
         signatureHtml += '<td style="vertical-align:middle;">';
-        signatureHtml += '<a href="http://' + website + '" target="_blank" style="color: #003C4C; text-decoration:none;">' + website + '</a>';
+        signatureHtml += '<a href="http://' + website + '" target="_blank" style="color: #003C4C; text-decoration:none; font-family:\'Roboto\', sans-serif; font-size:13px;">' + website + '</a>';
         signatureHtml += '</td>';
         signatureHtml += '</tr>';
         signatureHtml += '</table>';
@@ -219,7 +217,7 @@
         signatureHtml += '<img src="https://img.icons8.com/ios-filled/16/003C4C/marker.png" alt="Address" style="display:block;">';
         signatureHtml += '</td>';
         signatureHtml += '<td style="vertical-align:middle;">';
-        signatureHtml += '<span style="color: #003C4C;">' + address + '</span>';
+        signatureHtml += '<span style="color: #003C4C; font-family:\'Roboto\', sans-serif; font-size:13px;">' + address + '</span>';
         signatureHtml += '</td>';
         signatureHtml += '</tr>';
         signatureHtml += '</table>';
